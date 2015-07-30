@@ -6,6 +6,8 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.resource('datasets');
+  this.resource('dataset', { path: '/datasets/:id' });
 });
 
 export default Router;
