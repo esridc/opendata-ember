@@ -1,5 +1,5 @@
 <h2>
-    Your search for <em>"{{model.meta.queryParameters.q}}"</em> yielded {{model}} datasets
+    Your search for <em>"{{q}}"</em> yielded {{totalCount}} datasets (page {{page}})
 </h2>
 
 <div class="table-responsive">  
@@ -20,17 +20,40 @@
     </tbody>
   </table>
 </div>
-<!-- <nav>
-  <ul class="pagination">
-    <% if (pages.length > 1) { %>
-      <li id="page-prev" class="<%= firstPage %>"><a href="#<%= prevUrl %>" data-page="<%= prevPage %>"><span aria-hidden="true">&laquo;</span></a></li>
-      
-      <% _.each(pages, function (page) { %>
-        <li class="<%= page.active %>"><a href="#<%= page.url %>" class="page-number" data-page="<%= page.page %>"><%= page.page %></a></li>
-      <% }); %>
 
-      <li id="page-next" class="<%= lastPage %>"><a href="#<%= nextUrl %>" data-page="<%= nextPage %>"><span aria-hidden="true">&raquo;</span></a></li>
-    <% } %>
+<nav>
+  <ul class="pagination">
+    {{!-- If we're on the first page, do not display the link --}}
+    {{#if isFirstPage}}
+      <li class="disabled">
+        <a>&laquo;</a>
+      </li>
+    {{else}}
+      <li>
+        {{#link-to (query-params page=prevPage)}}&laquo;{{/link-to}}
+      </li>
+    {{/if}}
+
+    {{!--
+      For each page, display a link leading to it.
+      We could be smart and disable the link for the current page,
+      just like we're doing for the "previous"/"next" links.
+    --}}
+    {{#each num in pageRange}}
+      <li>
+        {{#link-to (query-params page=num)}}{{num}}{{/link-to}}
+      </li>
+    {{/each}}
+
+    {{!-- If we're on the last page, do not display the link --}}
+    {{#if isLastPage}}
+      <li class="disabled">
+        <a>&raquo;</a>
+      </li>
+    {{else}}
+      <li>
+        {{#link-to (query-params page=nextPage)}}&raquo;{{/link-to}}
+      </li>
+    {{/if}}
   </ul>
 </nav>
- -->
