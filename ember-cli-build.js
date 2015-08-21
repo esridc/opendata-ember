@@ -23,7 +23,7 @@ module.exports = function(defaults) {
     destDir: 'fonts/bootstrap/'
   });
 
-  //app.import('bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js');  
+  //app.import('bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js');
 
   return app.toTree();
 };

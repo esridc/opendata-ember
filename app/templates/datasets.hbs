@@ -1,3 +1,36 @@
-datasets page
-{{#link-to 'dataset' 'foo'}}dataset page{{/link-to}}
-{{outlet}}
+<h2>
+    Your search for <em>"{{model.meta.queryParameters.q}}"</em> yielded {{model}} datasets
+</h2>
+
+<div class="table-responsive">  
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>NAME</th>
+        <th>OWNER</th>
+        <th>RECORDS</th>
+        <th>LAYER TYPE</th>
+        <th>VIEWS</th>
+        <th>CREATED</th>
+        <th>UPDATED</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{outlet}}
+    </tbody>
+  </table>
+</div>
+<!-- <nav>
+  <ul class="pagination">
+    <% if (pages.length > 1) { %>
+      <li id="page-prev" class="<%= firstPage %>"><a href="#<%= prevUrl %>" data-page="<%= prevPage %>"><span aria-hidden="true">&laquo;</span></a></li>
+      
+      <% _.each(pages, function (page) { %>
+        <li class="<%= page.active %>"><a href="#<%= page.url %>" class="page-number" data-page="<%= page.page %>"><%= page.page %></a></li>
+      <% }); %>
+
+      <li id="page-next" class="<%= lastPage %>"><a href="#<%= nextUrl %>" data-page="<%= nextPage %>"><span aria-hidden="true">&raquo;</span></a></li>
+    <% } %>
+  </ul>
+</nav>
+ -->

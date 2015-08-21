@@ -1,0 +1,11 @@
+{{# each dataset in model}}
+  <tr>
+    <td>{{dataset.name}}</td>
+    <td>{{dataset.owner}}</td>
+    <td>{{dataset.recordCount}}</td>
+    <td>{{dataset.itemType}}</td>
+    <td>{{dataset.views}}</td>
+    <td>{{moment-from-now dataset.createdAt}}</td>
+    <td>{{moment-from-now dataset.updatedAt}}</td>
+  </tr>
+{{/ each}}
