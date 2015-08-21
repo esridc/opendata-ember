@@ -13,6 +13,7 @@ export default Ember.Route.extend({
 
   model: function (params, transition) {
     // NOTE: I think this is a bug - queryParams are available on transition but params is an empty object
+    console.debug('>>>>> hit model hook');
     return this.store.findQuery('dataset', transition.queryParams);
   },
 
