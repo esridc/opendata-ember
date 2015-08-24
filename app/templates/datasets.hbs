@@ -2,6 +2,10 @@
     Your search for <em>"{{q}}"</em> yielded {{totalCount}} datasets (page {{page}})
 </h2>
 
+{{#link-to 'datasets.index' (query-params page=1)}}1{{/link-to}}
+{{#link-to (query-params page='2')}}2{{/link-to}}
+{{#link-to 'datasets' (query-params page="3")}}3{{/link-to}}
+
 <div class="table-responsive">  
   <table class="table table-striped table-bordered table-hover">
     <thead>
