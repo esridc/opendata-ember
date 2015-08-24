@@ -27,12 +27,6 @@ export default DS.JSONAPISerializer.extend({
     });
 
     return payload;
-  },
-
-  //WTF this doesn't work?
-  // keyForAttribute: function(attr, method) {
-  //   debugger;
-  //   return Ember.String.decamelize(attr);
-  // }
+  }
 
 });

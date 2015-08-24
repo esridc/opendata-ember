@@ -11,12 +11,13 @@ export default Ember.Route.extend({
     }
   },
 
-  // actions: {
-  //   queryParamsDidChange: function(params) {
-  //     //this.controllerFor('datasets').set('model', this.model(null, { queryParams: params }));
-  //     debugger;
-  //   }
-  // },
+  actions: {
+    queryParamsDidChange: function(params) {
+      // NOTE: this should not be necessary because we are using refreshModel above
+      // but it wasn't working even tho i know it should work: http://emberjs.jsbin.com/sazixodoxe#/datasets?page=
+      this.refresh();
+    }
+  },
 
   model: function (params, transition) {
     // NOTE: I think this is a bug - queryParams are available on transition but params is an empty object
