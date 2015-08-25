@@ -16,6 +16,9 @@ export default Ember.Route.extend({
       // NOTE: this should not be necessary because we are using refreshModel above
       // but it wasn't working even tho i know it can work: http://emberjs.jsbin.com/sazixodoxe#/datasets?page=
       this.refresh();
+    },
+    gotoDataset: function (dataset) {
+      this.controllerFor('datasets').transitionToRoute('dataset', dataset);
     }
   },
 

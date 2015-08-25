@@ -5,12 +5,21 @@ export default DS.JSONAPISerializer.extend({
 
   normalizeResponse: function (store, primaryModelClass, payload, id, requestType) {
 
-    payload.meta = payload.metadata;
+    payload.meta = payload.metadata || {};
     delete payload.metadata;
 
-    var d;
-    payload.data = payload.data.map(function (item) {
-      d = {
+    if (Ember.isArray(payload.data)) {
+      payload.data = payload.data.map(this._mapDataset);
+    } else {
+      payload.data = this._mapDataset(payload.data);
+    }
+    
+
+    return payload;
+  },
+
+  _mapDataset: function (item) {
+    var d = {
         id: item.id,
         attributes: {},
         type: 'Dataset'
@@ -24,9 +33,6 @@ export default DS.JSONAPISerializer.extend({
       }
 
       return d;
-    });
-
-    return payload;
   }
 
 });

@@ -1,5 +1,5 @@
 {{# each dataset in model}}
-  <tr>
+  <tr {{action "gotoDataset" dataset}}>
     <td>{{dataset.name}}</td>
     <td>{{dataset.owner}}</td>
     <td>{{dataset.recordCount}}</td>
