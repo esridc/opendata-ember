@@ -6,8 +6,8 @@ export default Ember.Controller.extend({
 
   thumbnailSrc: function () {
     var model = this.get('model');
-    var thumbnailUrl = model.get('thumbnail_url');
-    var groupThumbnailUrl = model.get('main_group_thumbnail_url');
+    var thumbnailUrl = model.get('thumbnailUrl');
+    var groupThumbnailUrl = model.get('mainGroupThumbnailUrl');
     var defaultThumbnailUrl = 'images/default-dataset-thumb.png';
     return thumbnailUrl || groupThumbnailUrl || defaultThumbnailUrl;
   }.property(),
