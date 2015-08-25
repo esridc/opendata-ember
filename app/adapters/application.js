@@ -1,6 +1,6 @@
 import DS from 'ember-data';
+import ENV from 'opendata-ember/config/environment';
 
 export default DS.JSONAPIAdapter.extend({
-  // TODO: get this from config
-  host: 'http://opendatadev.arcgis.com'
+  host: ENV.APP.API
 });

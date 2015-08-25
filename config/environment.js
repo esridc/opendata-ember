@@ -27,6 +27,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      API: 'http://opendatadev.arcgis.com'
     }
   };
 
@@ -50,8 +51,12 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
-  if (environment === 'production') {
+  if (environment === 'production' || environment === 'prod') {
+    ENV.APP.API = 'http://opendata.arcgis.com';
+  }
 
+  if (environment === 'qaext') {
+    ENV.APP.API = 'http://opendataqa.arcgis.com';
   }
 
   return ENV;
