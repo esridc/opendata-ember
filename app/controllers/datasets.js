@@ -22,7 +22,7 @@ export default Ember.Controller.extend({
   // The following properties will be used for the display of the pagination links
   totalPages: function() {
     return Math.ceil(this.get('totalCount') / this.get('perPage'));
-  }.property('page'),
+  }.property('totalCount'),
 
   prevPage: function() {
     return this.get('page') - 1;
@@ -43,13 +43,17 @@ export default Ember.Controller.extend({
   pageRange: function () {
     var result = Ember.A();
 
-    for(var i = 1; i <= this.get('totalPages'); i++) {
-      if (i < 10) {
-        result.push(i);
-      }
+    var currentPage = this.get('page');
+    var totalPages = this.get('totalPages');
+
+    var start = (totalPages > 10 && currentPage > 6) ? currentPage - 5 : 1;
+    var end = (totalPages > start + 9) ? start + 9 : totalPages;
+
+    for(var i = start; i <= end; i++) {
+      result.push({ page: i, className: (i === currentPage) ? 'active' : '' });
     }
 
     return result;
-  }.property('totalPages')
+  }.property('totalPages', 'page')
 
 });

@@ -1,13 +1,6 @@
-import Ember from 'ember';
+// import Ember from 'ember';
+import ApplicationController from './application';
 
-export default Ember.Controller.extend({
-
-  q: '',
-
-  actions: {
-    search: function() {
-      this.transitionToRoute('datasets', { queryParams: { q: this.get('q') } });
-    }
-  }
+export default ApplicationController.extend({
 
 });

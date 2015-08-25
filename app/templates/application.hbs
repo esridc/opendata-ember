@@ -5,12 +5,13 @@
 
     <div class="container">
       <div class="header">
-        <form id="header-search-container" class="navbar-form navbar-right" role="search">
+        <form {{action "search" on="submit"}} id="header-search-container" class="navbar-form navbar-right" role="search">
           <div class="input-group">
             <label class="sr-only" for="header-search">Search</label>
-            <input type="search" name="header-search" id="header-search" class="form-control" placeholder="search">
+            {{input value=q class="form-control" placeholder="search"}}
+            <!-- <input type="search" name="header-search" id="header-search" class="form-control" placeholder="search"> -->
             <span class="input-group-btn">
-              <button id="header-search-btn" class="btn btn-default" type="button">
+              <button id="header-search-btn" class="btn btn-default" type="submit">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
               </button>
             </span>
