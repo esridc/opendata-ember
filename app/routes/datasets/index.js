@@ -21,7 +21,14 @@ export default Ember.Route.extend({
 
   model: function (params, transition) {
     // NOTE: I think this is a bug - queryParams are available on transition but params is an empty object
-    return this.store.query('dataset', transition.queryParams);
+    var ctrl = this.controllerFor('datasets');
+    var queryParams = {
+      per_page: ctrl.get('perPage')
+    };
+    if (transition.queryParams) {
+      queryParams = Ember.merge(queryParams, transition.queryParams);
+    }
+    return this.store.query('dataset', queryParams);
   },
 
   // Here, we're passing metadata to the controller

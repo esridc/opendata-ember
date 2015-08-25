@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
   // defaults
   page: 1,
   q: null,
-  perPage: 10,
+  perPage: 20,
 
   // These properties will be set by the parent route
   totalCount: null,
