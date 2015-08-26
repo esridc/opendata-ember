@@ -39,7 +39,7 @@
       We could be smart and disable the link for the current page,
       just like we're doing for the "previous"/"next" links.
     --}}
-    {{#each num in pageRange}}
+    {{#each pageRange as |num|}}
       <li class="{{num.className}}">
         {{#link-to (query-params page=num.page)}}{{num.page}}{{/link-to}}
       </li>

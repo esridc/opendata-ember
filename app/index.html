@@ -9,16 +9,34 @@
 
     {{content-for 'head'}}
 
+    <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/opendata-ember.css">
 
     {{content-for 'head-footer'}}
   </head>
   <body>
+
     {{content-for 'body'}}
 
+    <!-- This script tag is only needed if useRequire = true in Brocfile.js -->
+    <!-- If using a CDN w/Dojo, you can replace this scriptTage with a dojoConfig -->
+    <!-- This script tag must come before the content-for "esri" block -->
+    <script>
+      var reqConfig = {
+        locale: 'en-us',
+        isDebug: true
+      };
+      var dojoConfig = reqConfig;
+      dojoConfig.async = true;
+
+    </script>
+    
+    {{content-for 'amd'}}
+
+    <!-- NOTE: these are now loaded by the ember-cli-amd add-on
     <script src="assets/vendor.js"></script>
-    <script src="assets/opendata-ember.js"></script>
+    <script src="assets/opendata-ember.js"></script> -->
 
     {{content-for 'body-footer'}}
   </body>
