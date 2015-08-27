@@ -14,7 +14,15 @@
         {{/each}}
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+      {{#each data as |row|}}
+        <tr>
+          {{#each row as |attr|}}
+            <td>{{attr}}</td>
+          {{/each}}
+        </tr>
+      {{/each}}
+    </tbody>
   </table>
 </div>
 <nav>

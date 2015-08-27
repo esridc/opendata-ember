@@ -1,6 +1,3 @@
-* spin up a map
-* break datasets page into separate components
-* table on datasets page
 * tests
 * deployment
 * update readme.md
