@@ -28,7 +28,5 @@ module.exports = function(defaults) {
 
   app.import('bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js');
 
-  app.import('vendor/featureservice.min.js');  
-
   return app.toTree();
 };

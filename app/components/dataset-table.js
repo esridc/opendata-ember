@@ -1,5 +1,5 @@
 import Ember from 'ember';
-//import FeatureService from "npm:featureservice";// - this throws errors when we try to use it
+import FeatureService from "npm:featureservice";
 
 /* NOTE:
     There's tons of discussion of whether it is appropriate for 
