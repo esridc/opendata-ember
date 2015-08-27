@@ -15,15 +15,25 @@ export default Ember.Component.extend({
     var dataset = this.get('model');
 
     var mapOpts = {
-      center: [ -56.049, 38.485 ],
-      zoom: 3,
       basemap: 'dark-gray',
       smartNavigation:false,
       navigationMode: 'css-transforms',
-      fitExtent:true,
       minZoom: 2,
       wrapAround180:true
     };
+
+    var extent, ext = dataset.get('extent');
+    if (ext && ext.coordinates) {
+      var coords = ext.coordinates;
+      extent = new Extent(coords[0][0], coords[0][1], coords[1][0], coords[1][1], new SpatialReference({ wkid: 4326 }));
+    }
+
+    if (extent) {
+      mapOpts.extent = extent;
+    } else {
+      mapOpts.center = [ -56.049, 38.485 ];
+      mapOpts.zoom = 3;
+    }
 
     var map = new Map(this.elementId, mapOpts);
     this.set('map', map);

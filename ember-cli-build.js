@@ -5,7 +5,7 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     srcTag: 'https://js.arcgis.com/3.14compact/', // only needed for CDN, will default to 'built.js' if useRequire = true
     amdPackages: [ // user defined AMD packages
-      'esri','dojo'//,'dojox','dijit', 'put-selector','xstyle','dbind','dgrid'
+      'esri'
     ]
   });
 
@@ -27,6 +27,8 @@ module.exports = function(defaults) {
   });
 
   app.import('bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js');
+
+  app.import('vendor/featureservice.min.js');  
 
   return app.toTree();
 };
