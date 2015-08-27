@@ -1,3 +1,6 @@
+* i busted dataset thumbnail
+* paging on table
+* can i wrap up a custom element in the build of this app???
 * tests
 * deployment
 * update readme.md

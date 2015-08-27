@@ -23,22 +23,13 @@ export default Ember.Component.extend({
     var model = this.get('model');
     this.url = model.get('url');
     
-    this.queryCapabilities = model.get('advancedQueryCapabilities');
-    this.supportsPagination = this.queryCapabilities && this.queryCapabilities.supports_pagination;
-    this.orderBy = model.get('objectIdField');
+    this.set('supportsPagination', Ember.get(model, 'advancedQueryCapabilities.supports_pagination'));
+    this.set('orderBy', model.get('objectIdField'));
 
-var self = this;
+
+    // var self = this;
     this._fetchPage()
-      //.then(this._handlePageResponse)
-      .then(function (response) {
-        var data = response.features.map(function (feat) {
-          return Object.keys(feat.attributes).map(function (attr) {
-            return feat.attributes[attr];
-          });
-        });
-        self.set('data', data);
-      })
-      //.fail(function () { alert('boo'); })
+      .then(this._handlePageResponse.bind(this))
       .finally(function () { alert('all done'); })
       .catch(function () { alert('error'); });
 
@@ -64,16 +55,17 @@ var self = this;
     var url = this.model.get('url');
     url += '/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson';
 
-    if (this.supportsPagination) {
-      url += '&resultOffset=' + this.page * this.perPage;
-      url += '&resultRecordCount=' + this.perPage;
+    if (this.get('supportsPagination')) {
+      var perPage = this.get('perPage');
+      url += '&resultOffset=' + this.get('page') * perPage;
+      url += '&resultRecordCount=' + perPage;
       //NOTE: when you pass in one of the above two parameters and orderByFields is left empty, 
       //map service uses the object-id field to sort the result. 
       //For a query layer with a pseudo column as the object-id field (e.g., FID), 
       //you must provide orderByFields; otherwise the query fails
     }
 
-    var orderBy = this.orderBy;
+    var orderBy = this.get('orderBy');
     if (!this.orderByAsc) {
       orderBy += ' desc';
     }
@@ -103,10 +95,16 @@ var self = this;
 
   },
 
-  // _handlePageResponse: function (response) {
-  //   debugger;
-  //   this.set('data', response.features);
-  // },
+  _handlePageResponse: function (response) {
+    var perPage = this.get('perPage');
+    var features = response.features.slice(0, perPage);
+    var data = features.map(function (feat) {
+      return Object.keys(feat.attributes).map(function (attr) {
+        return feat.attributes[attr];
+      });
+    });
+    this.set('data', data);
+  },
 
   willRemoveElement() {
     
