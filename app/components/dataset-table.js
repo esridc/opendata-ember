@@ -1,5 +1,4 @@
 import Ember from 'ember';
-//import FeatureService from "npm:featureservice";// - this throws errors when we try to use it
 
 /* NOTE:
     There's tons of discussion of whether it is appropriate for 
@@ -13,35 +12,19 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  // NOTE: we could extract the featureservice stuff into a Ember Service...
-
-
-  //classNames: ['table-div'],
+  featureService: Ember.inject.service('feature-service'),
 
   didInsertElement() {
 
     var model = this.get('model');
-    this.url = model.get('url');
-    
-    this.set('supportsPagination', Ember.get(model, 'advancedQueryCapabilities.supports_pagination'));
     this.set('orderBy', model.get('objectIdField'));
 
-
-    // var self = this;
-    this._fetchPage()
-      .then(this._handlePageResponse.bind(this))
-      .finally(function () { alert('all done'); })
-      .catch(function () { alert('error'); });
-
-    // NOTE: this is not working...
-    // var opts = {};
-    // var featureService = new FeatureService(url, opts);
-    // featureService.pages(this._pagesCallback);
+    this.get('featureService')
+      .fetchPage(model, this._getPageParams())
+        .then(this._handlePageResponse.bind(this))
+        .finally(function () { alert('all done'); })
+        .catch(function () { alert('error'); });
   },
-
-  // _pagesCallback: function (a, b, c, d) {
-  //   debugger;
-  // },
 
   perPage: 10,
 
@@ -51,48 +34,13 @@ export default Ember.Component.extend({
 
   orderByAsc: true,
 
-  _getQueryUrl: function () {
-    var url = this.model.get('url');
-    url += '/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson';
-
-    if (this.get('supportsPagination')) {
-      var perPage = this.get('perPage');
-      url += '&resultOffset=' + this.get('page') * perPage;
-      url += '&resultRecordCount=' + perPage;
-      //NOTE: when you pass in one of the above two parameters and orderByFields is left empty, 
-      //map service uses the object-id field to sort the result. 
-      //For a query layer with a pseudo column as the object-id field (e.g., FID), 
-      //you must provide orderByFields; otherwise the query fails
-    }
-
-    var orderBy = this.get('orderBy');
-    if (!this.orderByAsc) {
-      orderBy += ' desc';
-    }
-    //NOTE: this still could fail 
-    //if the oid field has changed since it was harvested by open data
-    //or it is null (which should not happen...)
-    url += '&orderByFields=' + orderBy;
-
-    return url;
-  },
-
-  _fetchPage: function () {
-    var url = this._getQueryUrl();
-
-    return new Ember.RSVP.Promise(function(resolve, reject){
-      Ember.$.ajax({
-        url: url,
-        dataType: 'json',
-        success: function (response, status, xhr) {
-          resolve(response);
-        },
-        error: function (xhr, status, error) {
-          reject(new Error('getJSON: `' + url + '` failed with status: [' + status + ']'));
-        }
-      });
-    });
-
+  _getPageParams: function () {
+    return {
+      perPage: this.get('perPage'),
+      page: this.get('page'),
+      orderBy: this.get('orderBy'),
+      orderByAsc: this.get('orderByAsc')
+    };
   },
 
   _handlePageResponse: function (response) {
