@@ -25,16 +25,40 @@
     </tbody>
   </table>
 </div>
-<nav>
-  <!-- <ul class="pagination">
-    <% if (pages.length > 1) { %>
-      <li id="page-prev" class="<%= firstPage %>"><a data-page="<%= prevPage %>"><span aria-hidden="true">&laquo;</span></a></li>
-      
-      <% _.each(pages, function (page) { %>
-        <li class="<%= page.active %>"><a class="page-number" data-page="<%= page.page %>"><%= page.page %></a></li>
-      <% }); %>
 
-      <li id="page-next" class="<%= lastPage %>"><a data-page="<%= nextPage %>"><span aria-hidden="true">&raquo;</span></a></li>
-    <% } %>
-  </ul> -->
+<nav>
+  <ul class="pagination">
+    {{!-- If we're on the first page, do not display the link --}}
+    {{#if isFirstPage}}
+      <li class="disabled">
+        <a>&laquo;</a>
+      </li>
+    {{else}}
+      <li>
+        {{#link-to (query-params page=prevPage)}}&laquo;{{/link-to}}
+      </li>
+    {{/if}}
+
+    {{!--
+      For each page, display a link leading to it.
+      We could be smart and disable the link for the current page,
+      just like we're doing for the "previous"/"next" links.
+    --}}
+    {{#each pageRange as |num|}}
+      <li class="{{num.className}}">
+        {{#link-to (query-params page=num.page)}}{{num.page}}{{/link-to}}
+      </li>
+    {{/each}}
+
+    {{!-- If we're on the last page, do not display the link --}}
+    {{#if isLastPage}}
+      <li class="disabled">
+        <a>&raquo;</a>
+      </li>
+    {{else}}
+      <li>
+        {{#link-to (query-params page=nextPage)}}&raquo;{{/link-to}}
+      </li>
+    {{/if}}
+  </ul>
 </nav>

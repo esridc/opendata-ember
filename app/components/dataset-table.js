@@ -56,6 +56,77 @@ export default Ember.Component.extend({
 
   willRemoveElement() {
     
+  },
+
+  _calculatePaging: function () {
+    //defaults - this is what will be rendered if the dataset does not support pagination
+    
+    var obj = {
+      isFirstPage: true,
+      prevPage: 0,
+      pageRange: [
+        { className: '', page: 1 }, 
+        { className: '', page: 2 }
+      ],
+      lastPage: false,
+      nextPage: 2
+    };
+
+    this.set('pagingInfo', obj);
+
+
+    // var obj = {
+    //   firstPage: '',
+    //   lastPage: '',
+    //   prevPage: 0,
+    //   nextPage: 0,
+    //   pages: [],
+    //   showPagination: false,
+    //   from: 1,
+    //   to: this.collection.perPage,
+    //   total: this.model.get('record_count'),
+    //   sortField: this.collection.orderBy,
+    //   sortClass: this.collection.orderByAsc ? 'sort_asc' : 'sort_desc',
+    //   sortIconClass: this.collection.orderByAsc ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up',
+    // };
+
+    // if (this.collection.supportsPagination) {
+    //   var totalPages = Math.ceil(this.model.get('record_count') / this.collection.perPage);
+    //   //zero based page index
+    //   var page = this.collection.page;
+
+    //   //don't show more than 10 pages in paginator?
+    //   var start = (totalPages > 10 && page > 6) ? page - 5 : 1;
+    //   var end = (totalPages > start + 9) ? start + 9 : totalPages;
+
+    //   var active, pages = [];
+    //   for (var i = start; i <= end; i++) {
+    //     active = (i === page + 1) ? 'active' : '';
+    //     pages.push({ page: i, active: active });
+    //   }
+
+    //   var total = this.model.get('record_count');
+    //   var from = page * this.collection.perPage + 1;
+    //   var to = page * this.collection.perPage + this.collection.perPage;
+    //   to = (to <= total) ? to : total;
+
+    //   obj = {
+    //     firstPage: (page === 0) ? 'disabled' : '',
+    //     lastPage: (totalPages === page + 1) ? 'disabled' : '',
+    //     prevPage: page,
+    //     nextPage: page + 2,
+    //     pages: pages,
+    //     showPagination: true,
+    //     from: from,
+    //     to: to,
+    //     total: total,
+    //     sortField: this.collection.orderBy,
+    //     sortClass: this.collection.orderByAsc ? 'sort_asc' : 'sort_desc',
+    //     sortIconClass: this.collection.orderByAsc ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up',
+    //   };
+    // }
+
+    // return obj;
   }
 
 });
