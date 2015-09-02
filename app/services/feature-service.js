@@ -11,7 +11,7 @@ export default Ember.Service.extend({
 
     if (supportsPagination) {
       var perPage = params.perPage;
-      url += '&resultOffset=' + params.page * perPage;
+      url += '&resultOffset=' + (params.page - 1) * perPage;
       url += '&resultRecordCount=' + perPage;
       //NOTE: when you pass in one of the above two parameters and orderByFields is left empty, 
       //map service uses the object-id field to sort the result. 

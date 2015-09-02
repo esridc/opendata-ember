@@ -12,27 +12,59 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+  actions: {
+    setPage(page) { this.setPage(page); },
+    setSort(sort) { this.setSort(sort); }
+  },
+
   featureService: Ember.inject.service('feature-service'),
 
   didInsertElement() {
-
     var model = this.get('model');
     this.set('orderBy', model.get('objectIdField'));
 
+    this.fetchPage();
+  },
+
+  fetchPage: function () {
+    var model = this.get('model');
     this.get('featureService')
       .fetchPage(model, this._getPageParams())
         .then(this._handlePageResponse.bind(this))
-        .finally(function () { alert('all done'); })
+        //.finally(function () { alert('all done'); })
         .catch(function () { alert('error'); });
+  },
+
+  setPage: function (page) {
+    this.set('page', page);
+    this.fetchPage();
+  },
+
+  setSort: function (orderBy) {
+    var obj = {
+      page: 1,
+      orderBy: orderBy,
+      orderByAsc: (orderBy === this.orderBy) ? !this.orderByAsc : true
+    };
+    
+    this.setProperties(obj);
+
+    this.fetchPage();
   },
 
   perPage: 10,
 
-  page: 0,
+  page: 1,
 
   orderBy: '',
 
   orderByAsc: true,
+
+  sortIconClass: function () {
+    var result = 'glyphicon-chevron-';
+    result += this.orderByAsc ? 'up' : 'down';
+    return result;
+  }.property('orderByAsc'),
 
   _getPageParams: function () {
     return {
@@ -52,6 +84,8 @@ export default Ember.Component.extend({
       });
     });
     this.set('data', data);
+
+    this._calculatePaging();
   },
 
   willRemoveElement() {
@@ -60,73 +94,37 @@ export default Ember.Component.extend({
 
   _calculatePaging: function () {
     //defaults - this is what will be rendered if the dataset does not support pagination
-    
+    var model = this.get('model');
+    var recordCount = model.get('recordCount');
+    var supportsPagination = Ember.get(model, 'advancedQueryCapabilities.supports_pagination');
+
     var obj = {
-      isFirstPage: true,
-      prevPage: 0,
-      pageRange: [
-        { className: '', page: 1 }, 
-        { className: '', page: 2 }
-      ],
-      lastPage: false,
-      nextPage: 2
+      from: (this.page - 1) * this.perPage + 1,
+      to: (this.page - 1) * this.perPage + this.perPage,
+      totalCount: recordCount, 
+      supportsPagination: supportsPagination
     };
 
-    this.set('pagingInfo', obj);
+    if (supportsPagination) {
+      obj.isFirstPage = this.page === 1;
+      obj.prevPage = this.page - 1;
+      obj.isLastPage = (this.page - 1) * this.perPage + this.data.length >= recordCount;
+      obj.nextPage = this.page + 1;
 
+      var totalPages = Math.ceil(recordCount / this.perPage);
+      // don't show more than 10 pages in paginator?
+      var start = (totalPages > 10 && this.page > 6) ? this.page - 5 : 1;
+      var end = (totalPages > start + 9) ? start + 9 : totalPages;
 
-    // var obj = {
-    //   firstPage: '',
-    //   lastPage: '',
-    //   prevPage: 0,
-    //   nextPage: 0,
-    //   pages: [],
-    //   showPagination: false,
-    //   from: 1,
-    //   to: this.collection.perPage,
-    //   total: this.model.get('record_count'),
-    //   sortField: this.collection.orderBy,
-    //   sortClass: this.collection.orderByAsc ? 'sort_asc' : 'sort_desc',
-    //   sortIconClass: this.collection.orderByAsc ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up',
-    // };
-
-    // if (this.collection.supportsPagination) {
-    //   var totalPages = Math.ceil(this.model.get('record_count') / this.collection.perPage);
-    //   //zero based page index
-    //   var page = this.collection.page;
-
-    //   //don't show more than 10 pages in paginator?
-    //   var start = (totalPages > 10 && page > 6) ? page - 5 : 1;
-    //   var end = (totalPages > start + 9) ? start + 9 : totalPages;
-
-    //   var active, pages = [];
-    //   for (var i = start; i <= end; i++) {
-    //     active = (i === page + 1) ? 'active' : '';
-    //     pages.push({ page: i, active: active });
-    //   }
-
-    //   var total = this.model.get('record_count');
-    //   var from = page * this.collection.perPage + 1;
-    //   var to = page * this.collection.perPage + this.collection.perPage;
-    //   to = (to <= total) ? to : total;
-
-    //   obj = {
-    //     firstPage: (page === 0) ? 'disabled' : '',
-    //     lastPage: (totalPages === page + 1) ? 'disabled' : '',
-    //     prevPage: page,
-    //     nextPage: page + 2,
-    //     pages: pages,
-    //     showPagination: true,
-    //     from: from,
-    //     to: to,
-    //     total: total,
-    //     sortField: this.collection.orderBy,
-    //     sortClass: this.collection.orderByAsc ? 'sort_asc' : 'sort_desc',
-    //     sortIconClass: this.collection.orderByAsc ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up',
-    //   };
-    // }
-
-    // return obj;
+      var className, pageRange = [];
+      for (var i = start; i <= end; i++) {
+        className = (i === this.page) ? 'active' : '';
+        pageRange.push({ page: i, className: className });
+      }
+      obj.pageRange = pageRange;
+    }
+    
+    this.setProperties(obj);
   }
 
 });

@@ -1,14 +1,13 @@
-<h4>Showing  to  of </h4>
+<h4>Showing {{from}} to {{to}} of {{totalCount}}</h4>
 <div class="table-responsive">  
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
         {{#each model.fields as |field|}}
-          <th>
-            {{#if field.alias}}
-              {{field.alias}}
-            {{else}}
-              {{field.name}}
+          <th {{action 'setSort' field.name}}>
+            {{field.alias}}
+            {{#if (eq field.name orderBy)}}
+              <span class="glyphicon small {{sortIconClass}} text-muted" aria-hidden="true"></span>
             {{/if}}
           </th>
         {{/each}}
@@ -35,7 +34,7 @@
       </li>
     {{else}}
       <li>
-        {{#link-to (query-params page=prevPage)}}&laquo;{{/link-to}}
+        <a {{action 'setPage' prevPage}}>&laquo;</a>
       </li>
     {{/if}}
 
@@ -46,7 +45,7 @@
     --}}
     {{#each pageRange as |num|}}
       <li class="{{num.className}}">
-        {{#link-to (query-params page=num.page)}}{{num.page}}{{/link-to}}
+        <a {{action 'setPage' num.page}}>{{num.page}}</a>
       </li>
     {{/each}}
 
@@ -57,7 +56,7 @@
       </li>
     {{else}}
       <li>
-        {{#link-to (query-params page=nextPage)}}&raquo;{{/link-to}}
+        <a {{action 'setPage' nextPage}}>&raquo;</a>
       </li>
     {{/if}}
   </ul>
