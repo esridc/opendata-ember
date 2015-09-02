@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OpendataEmber</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="/" />
+<!-- EMBER_CLI_FASTBOOT_TITLE -->
+
+    <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/opendata-ember.css">
+
+    
+  </head>
+  <body>
+
+    <!-- EMBER_CLI_FASTBOOT_BODY -->
+
+    <!-- This script tag is only needed if useRequire = true in Brocfile.js -->
+    <!-- If using a CDN w/Dojo, you can replace this scriptTage with a dojoConfig -->
+    <!-- This script tag must come before the content-for "esri" block -->
+    <script>
+      var reqConfig = {
+        locale: 'en-us',
+        isDebug: true
+      };
+      var dojoConfig = reqConfig;
+      dojoConfig.async = true;
+
+    </script>
+    
+    <script src="https://js.arcgis.com/3.14compact/"></script>
+<script>
+require([
+'esri/InfoTemplate','esri/SpatialReference','esri/geometry/Extent','esri/layers/FeatureLayer','esri/map','esri/renderer'], function(
+mod0,mod1,mod2,mod3,mod4,mod5) {
+adoptable = [{name:"esri/InfoTemplate",obj:mod0},{name:"esri/SpatialReference",obj:mod1},{name:"esri/geometry/Extent",obj:mod2},{name:"esri/layers/FeatureLayer",obj:mod3},{name:"esri/map",obj:mod4},{name:"esri/renderer",obj:mod5},];
+var vendor=document.createElement("script");
+vendor.setAttribute("src", "assets/vendor.js");
+vendor.onload=function(){
+var app=document.createElement("script");
+app.setAttribute("src", "assets/opendata-ember.js");
+document.body.appendChild(app);
+}
+document.body.appendChild(vendor);
+});
+</script>
+
+    <!-- NOTE: these are now loaded by the ember-cli-amd add-on
+    <script src="assets/vendor.js"></script>
+    <script src="assets/opendata-ember.js"></script> -->
+
+    
+  </body>
+</html>
