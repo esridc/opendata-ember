@@ -1,10 +1,11 @@
 import Ember from 'ember';
-import Map from 'esri/map';
+import Map from 'esri/Map';
+import MapView from 'esri/views/MapView';
 import FeatureLayer from 'esri/layers/FeatureLayer';
 import InfoTemplate from 'esri/InfoTemplate';
-import SpatialReference from 'esri/SpatialReference';
+import SpatialReference from 'esri/geometry/SpatialReference';
 import Extent from 'esri/geometry/Extent';
-import renderer from 'esri/renderer';
+import SimpleRenderer from 'esri/renderers/SimpleRenderer';
 
 export default Ember.Component.extend({
 
@@ -15,11 +16,22 @@ export default Ember.Component.extend({
     var dataset = this.get('model');
 
     var mapOpts = {
-      basemap: 'dark-gray',
-      smartNavigation:false,
-      navigationMode: 'css-transforms',
-      minZoom: 2,
-      wrapAround180:true
+      basemap: 'dark-gray'
+      // ,
+      // smartNavigation:false,
+      // navigationMode: 'css-transforms',
+      // minZoom: 2,
+      // wrapAround180:true
+    };
+
+    var map = new Map(mapOpts);
+    this.set('map', map);
+
+    var mapViewOpts = {
+      container: this.elementId,  //reference to the DOM node that will contain the view
+      map: map,  //references the map object created in step 3
+      height: '100%',
+      width: '100%'
     };
 
     var extent, ext = dataset.get('extent');
@@ -29,27 +41,26 @@ export default Ember.Component.extend({
     }
 
     if (extent) {
-      mapOpts.extent = extent;
+      mapViewOpts.extent = extent;
     } else {
-      mapOpts.center = [ -56.049, 38.485 ];
-      mapOpts.zoom = 3;
+      mapViewOpts.center = [ -56.049, 38.485 ];
+      mapViewOpts.zoom = 3;
     }
 
-    var map = new Map(this.elementId, mapOpts);
-    this.set('map', map);
+    var view = new MapView(mapViewOpts);
 
 
-    var onLoad = function(opts){
-      opts.map.disableScrollWheelZoom();
-      var ext = dataset.get('extent');
-      if (ext && ext.coordinates) {
-        var coords = ext.coordinates;
-        var extent = new Extent(coords[0][0], coords[0][1], coords[1][0], coords[1][1], new SpatialReference({ wkid: 4326 }));
-        map.setExtent(extent);
-      }
-    };
+    // var onLoad = function(opts){
+    //   opts.map.disableScrollWheelZoom();
+    //   var ext = dataset.get('extent');
+    //   if (ext && ext.coordinates) {
+    //     var coords = ext.coordinates;
+    //     var extent = new Extent(coords[0][0], coords[0][1], coords[1][0], coords[1][1], new SpatialReference({ wkid: 4326 }));
+    //     map.setExtent(extent);
+    //   }
+    // };
 
-    map.on('load', onLoad);
+    //map.on('load', onLoad);
 
     this._addDataset(map, dataset);
   },
@@ -67,18 +78,18 @@ export default Ember.Component.extend({
     //apply default renderer
     if(opts.layerDefinition && opts.layerDefinition.drawingInfo){
       //apply renderers
-      this.datasetLayer.setRenderer(this._createRendererFromJson(opts.layerDefinition.drawingInfo.renderer));
+      this.datasetLayer.renderer = this._createRendererFromJson(opts.layerDefinition.drawingInfo.renderer);
     }
 
     this.datasetLayer.on('load', this._onLoadDataset);
 
-    map.addLayer(this.datasetLayer);
+    map.add(this.datasetLayer);
   },
 
   _onLoadDataset: function (evt) {
     //squash scale ranges - we need the layer to draw at all scales
-    evt.layer.minScale = 0; 
-    evt.layer.maxScale = 0;
+    evt.target.minScale = 0; 
+    evt.target.maxScale = 0;
   },
 
   _getDatasetInfoTemplate: function (dataset) {
@@ -137,7 +148,7 @@ export default Ember.Component.extend({
     switch (rendererJson.type){
     case 'simple':
       //create the default symbol
-      result = new renderer.SimpleRenderer(rendererJson);
+      result = new SimpleRenderer(rendererJson);
       break;
     case 'classBreaks':
       result = new renderer.ClassBreaksRenderer(rendererJson);
