@@ -4,6 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'opendata-ember',
     environment: environment,
+    rootUrl: '/',
     baseURL: '/',
     locationType: 'auto',
 
@@ -52,13 +53,14 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production' || environment === 'prod') {
-    ENV.baseUrl = 'opendata-ember';
-    ENV.rootUrl = 'opendata-ember';
+    ENV.baseUrl = '/';
+    ENV.rootUrl = '/opendata-ember';
     ENV.APP.API = 'http://opendataqa.arcgis.com';
   }
 
   if (environment === 'qaext') {
-    ENV.baseUrl = 'opendata-ember';
+    ENV.baseUrl = '/';
+    ENV.rootUrl = '/opendata-ember';
     ENV.APP.API = 'http://opendataqa.arcgis.com';
   }
 
