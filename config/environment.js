@@ -4,8 +4,8 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'opendata-ember',
     environment: environment,
-    rootUrl: '/',
-    baseURL: '/',
+    rootUrl: '/', //assets
+    baseURL: '/', //app
     locationType: 'auto',
 
     contentSecurityPolicy: {
