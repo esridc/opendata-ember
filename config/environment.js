@@ -52,10 +52,12 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production' || environment === 'prod') {
-    ENV.APP.API = 'http://opendata.arcgis.com';
+    ENV.baseUrl = 'opendata-ember';
+    ENV.APP.API = 'http://opendataqa.arcgis.com';
   }
 
   if (environment === 'qaext') {
+    ENV.baseUrl = 'opendata-ember';
     ENV.APP.API = 'http://opendataqa.arcgis.com';
   }
 
