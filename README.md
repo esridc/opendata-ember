@@ -37,4 +37,4 @@ You will need the following things properly installed on your computer.
 
 To deploy to the gh-pages branch of your origin:
 
-'./deploy.sh'
+`./deploy.sh`
