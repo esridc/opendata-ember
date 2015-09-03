@@ -12,7 +12,7 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    queryParamsDidChange: function(params) {
+    queryParamsDidChange: function(/*params*/) {
       // NOTE: this should not be necessary because we are using refreshModel above
       // but it wasn't working even tho i know it can work: http://emberjs.jsbin.com/sazixodoxe#/datasets?page=
       this.refresh();

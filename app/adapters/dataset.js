@@ -8,7 +8,7 @@ export default ApplicationAdapter.extend({
     return Ember.String.pluralize(camelized) + '.json';
   },
 
-  urlForFindRecord: function (id, modelName, snapshot)  {
+  urlForFindRecord: function (id/*, modelName, snapshot*/)  {
     var host = this.get('host');
     return host + '/datasets/' + id + '.json';
   }
