@@ -53,6 +53,7 @@ module.exports = function(environment) {
 
   if (environment === 'production' || environment === 'prod') {
     ENV.baseUrl = 'opendata-ember';
+    ENV.rootUrl = 'opendata-ember';
     ENV.APP.API = 'http://opendataqa.arcgis.com';
   }
 
