@@ -72,7 +72,7 @@ export default Ember.Component.extend({
     return new PopupTemplate({ title: title, description: '{*}' });
   },
 
-  _getRenderer: function(dataset, layerOptions){
+  _getRenderer: function(dataset){
 
     var geometryType = dataset.get('geometryType');
     var renderer;
