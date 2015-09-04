@@ -2,7 +2,7 @@ import Ember from 'ember';
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
 import FeatureLayer from 'esri/layers/FeatureLayer';
-import InfoTemplate from 'esri/InfoTemplate';
+import PopupTemplate from 'esri/widgets/PopupTemplate';
 import SpatialReference from 'esri/geometry/SpatialReference';
 import Extent from 'esri/geometry/Extent';
 import SimpleRenderer from 'esri/renderers/SimpleRenderer';
@@ -17,11 +17,6 @@ export default Ember.Component.extend({
 
     var mapOpts = {
       basemap: 'dark-gray'
-      // ,
-      // smartNavigation:false,
-      // navigationMode: 'css-transforms',
-      // minZoom: 2,
-      // wrapAround180:true
     };
 
     var map = new Map(mapOpts);
@@ -48,24 +43,17 @@ export default Ember.Component.extend({
     }
 
     var view = new MapView(mapViewOpts);
-
-
-    // var onLoad = function(opts){
-    //   opts.map.disableScrollWheelZoom();
-    //   var ext = dataset.get('extent');
-    //   if (ext && ext.coordinates) {
-    //     var coords = ext.coordinates;
-    //     var extent = new Extent(coords[0][0], coords[0][1], coords[1][0], coords[1][1], new SpatialReference({ wkid: 4326 }));
-    //     map.setExtent(extent);
-    //   }
-    // };
-
-    //map.on('load', onLoad);
+    this.set('mapView', view);
 
     this._addDataset(map, dataset);
   },
 
   willRemoveElement() {
+    var view = this.get('mapView');
+    if (view) {
+      view.destroy();
+    }
+
     var map = this.get('map');
     if (map) {
       map.destroy();
@@ -74,87 +62,59 @@ export default Ember.Component.extend({
 
   _addDataset: function (map, dataset) {
     var opts = this._getDatasetLayerOpts(dataset);
-    this.datasetLayer = new FeatureLayer(dataset.get('url'), opts);
-    //apply default renderer
-    if(opts.layerDefinition && opts.layerDefinition.drawingInfo){
-      //apply renderers
-      this.datasetLayer.renderer = this._createRendererFromJson(opts.layerDefinition.drawingInfo.renderer);
-    }
-
-    this.datasetLayer.on('load', this._onLoadDataset);
-
-    map.add(this.datasetLayer);
-  },
-
-  _onLoadDataset: function (evt) {
-    //squash scale ranges - we need the layer to draw at all scales
-    evt.target.minScale = 0; 
-    evt.target.maxScale = 0;
+    var datasetLayer = new FeatureLayer(dataset.get('url'), opts);
+    this.set('datasetLayer', datasetLayer);
+    map.add(datasetLayer);
   },
 
   _getDatasetInfoTemplate: function (dataset) {
     var displayFieldName = dataset.get('displayField');
-    var title = displayFieldName ? '${' + displayFieldName + '}' : 'Attributes';
-    return new InfoTemplate(title, '${*}');
+    var title = displayFieldName ? '{' + displayFieldName + '}' : 'Attributes';
+    return new PopupTemplate({ title: title, description: '{*}' });
   },
 
-  _addDefaultSymbols: function(layerOptions){
-    //add the layerDefinition node
-    if(!layerOptions.layerDefinition){
-      layerOptions.layerDefinition = {};
-      layerOptions.layerDefinition.drawingInfo = {};
-    }
-    if(!layerOptions.layerDefinition.drawingInfo){
-      layerOptions.layerDefinition.drawingInfo = {};
-    }
+  _getRenderer: function(dataset, layerOptions){
+
+    var geometryType = dataset.get('geometryType');
+    var renderer;
 
     //depending on the type, load in the default renderer as json
-    switch (layerOptions.geometryType){
+    switch (geometryType){
     case 'esriGeometryPolygon':
-      layerOptions.layerDefinition.drawingInfo.renderer = this._defaultPolygonRenderer;
+      renderer = this._createRendererFromJson(this._defaultPolygonRenderer);
       break;
     case 'esriGeometryPoint':
-      layerOptions.layerDefinition.drawingInfo.renderer = this._defaultPointRenderer;
+      renderer = this._createRendererFromJson(this._defaultPointRenderer);
       break;
     case 'esriGeometryMultipoint':
-      layerOptions.layerDefinition.drawingInfo.renderer = this._defaultPointRenderer;
+      renderer = this._createRendererFromJson(this._defaultPointRenderer);
       break;
     case 'esriGeometryPolyline':
-      layerOptions.layerDefinition.drawingInfo.renderer = this._defaultLineRenderer;
+      renderer = this._createRendererFromJson(this._defaultLineRenderer);
       break;
     case 'esriGeometryLine':
-      layerOptions.layerDefinition.drawingInfo.renderer = this._defaultLineRenderer;
+      renderer = this._createRendererFromJson(this._defaultLineRenderer);
       break;
     default: 
-      layerOptions.layerDefinition.drawingInfo.renderer = this._defaultPolygonRenderer;
+      renderer = this._createRendererFromJson(this._defaultPolygonRenderer);
     }
-    return layerOptions;
+    return renderer;
   },
 
   _getDatasetLayerOpts: function (dataset) {
-    var opts = { 
-      mode: FeatureLayer.MODE_AUTO,
-      outFields: '*',
-      infoTemplate: this._getDatasetInfoTemplate(dataset),
-      geometryType: dataset.get('geometryType')
+    var opts = {
+      minScale: 0,
+      maxScale: 0,
+      outFields: ['*'],
+      popupTemplate: this._getDatasetInfoTemplate(dataset),
+      renderer: this._getRenderer(dataset, opts)
     };
-    //add the default symbol
-    this._addDefaultSymbols(opts);
+    
     return opts;
   },
 
   _createRendererFromJson: function(rendererJson){
-    var result;
-    switch (rendererJson.type){
-    case 'simple':
-      //create the default symbol
-      result = new SimpleRenderer(rendererJson);
-      break;
-    case 'classBreaks':
-      result = new renderer.ClassBreaksRenderer(rendererJson);
-      break;
-    }
-    return result;
+    return new SimpleRenderer(rendererJson);
   },
 
   _defaultPointRenderer : {
