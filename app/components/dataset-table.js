@@ -21,7 +21,9 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     var model = this.get('model');
-    this.set('orderBy', model.get('objectIdField'));
+
+    //this causes a deprecation warning for some reason...
+    //this.set('orderBy', model.get('objectIdField'));
 
     this.fetchPage();
   },
