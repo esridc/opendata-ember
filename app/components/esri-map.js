@@ -24,7 +24,8 @@ export default Ember.Component.extend({
 
     var mapViewOpts = {
       container: this.elementId,  //reference to the DOM node that will contain the view
-      map: map  //references the map object created in step 3
+      map: map,  //references the map object created in step 3
+      height: 600
     };
 
     var extent, ext = dataset.get('extent');
