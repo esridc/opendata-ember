@@ -9,10 +9,9 @@ import SimpleRenderer from 'esri/renderers/SimpleRenderer';
 
 export default Ember.Component.extend({
 
-  classNames: ['map-div'],
+  classNames: ['esri-map-component'],
 
   didInsertElement() {
-
     var dataset = this.get('model');
 
     var mapOpts = {
@@ -23,9 +22,10 @@ export default Ember.Component.extend({
     this.set('map', map);
 
     var mapViewOpts = {
-      container: this.elementId,  //reference to the DOM node that will contain the view
+      container: 'map-div',  //reference to the DOM node that will contain the view
       map: map,  //references the map object created in step 3
-      height: 600
+      height: this.element.clientHeight,
+      width: this.element.clientWidth
     };
 
     var extent, ext = dataset.get('extent');
