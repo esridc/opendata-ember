@@ -20,10 +20,10 @@ export default Ember.Component.extend({
   featureService: Ember.inject.service('feature-service'),
 
   didInsertElement() {
-    var model = this.get('model');
 
-    //this causes a deprecation warning for some reason...
-    //this.set('orderBy', model.get('objectIdField'));
+    //deprecation warning with this...
+    //so we set it from the outside
+    //this.set('orderBy', this.get('model.objectIdField'));
 
     this.fetchPage();
   },
@@ -69,6 +69,11 @@ export default Ember.Component.extend({
   }.property('orderByAsc'),
 
   _getPageParams: function () {
+    // var orderBy = this.get('orderBy');
+    // if (!orderBy) {
+    //   orderBy = this.get('model.objectIdField');
+    // }
+
     return {
       perPage: this.get('perPage'),
       page: this.get('page'),
