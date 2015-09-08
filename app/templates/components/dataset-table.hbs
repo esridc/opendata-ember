@@ -17,7 +17,6 @@
       {{#each data as |row|}}
         <tr>      
           {{#each model.fields as |field|}}
-            {{log field.name}}
             <td>{{property-of row field.name}}</td>
           {{/each}}
         </tr>
