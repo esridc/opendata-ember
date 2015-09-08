@@ -86,9 +86,9 @@ export default Ember.Component.extend({
     var perPage = this.get('perPage');
     var features = response.features.slice(0, perPage);
     var data = features.map(function (feat) {
-      return Object.keys(feat.attributes).map(function (attr) {
-        return feat.attributes[attr];
-      });
+      //return Object.keys(feat.attributes).map(function (attr) {
+        return feat.attributes;
+      //});
     });
     this.set('data', data);
 

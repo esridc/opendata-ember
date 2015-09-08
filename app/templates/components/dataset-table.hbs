@@ -15,9 +15,10 @@
     </thead>
     <tbody>
       {{#each data as |row|}}
-        <tr>
-          {{#each row as |attr|}}
-            <td>{{attr}}</td>
+        <tr>      
+          {{#each model.fields as |field|}}
+            {{log field.name}}
+            <td>{{property-of row field.name}}</td>
           {{/each}}
         </tr>
       {{/each}}
