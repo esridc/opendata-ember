@@ -73,7 +73,6 @@ export default Ember.Component.extend({
   },
 
   _getRenderer: function(dataset){
-
     var geometryType = dataset.get('geometryType');
     var renderer;
 
