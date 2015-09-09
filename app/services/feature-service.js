@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ajax from 'ic-ajax';
 //import FeatureService from '';
 
 export default Ember.Service.extend({
@@ -35,17 +36,9 @@ export default Ember.Service.extend({
 
     var url = this._getQueryUrl(dataset, params);
 
-    return new Ember.RSVP.Promise(function(resolve, reject){
-      Ember.$.ajax({
-        url: url,
-        dataType: 'json',
-        success: function (response/*, status, xhr*/) {
-          resolve(response);
-        },
-        error: function (xhr, status/*, error*/) {
-          reject(new Error('getJSON: `' + url + '` failed with status: [' + status + ']'));
-        }
-      });
+    return ajax({
+      url: url,
+      dataType: 'json',
     });
 
   }
