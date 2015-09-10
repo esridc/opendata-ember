@@ -1,3 +1,4 @@
+* reimplement the dataset table paging to use computed properties like dataset controller
 * figure out how to actually write useful tests
 * can i wrap up a custom element in the build of this app???
 * use pods

@@ -50,7 +50,6 @@ export default Ember.Component.extend({
     };
     
     this.setProperties(obj);
-
     this.fetchPage();
   },
 
@@ -100,6 +99,8 @@ export default Ember.Component.extend({
   },
 
   _calculatePaging: function () {
+    // TODO: reimplement the dataset table paging to use computed properties like dataset controller
+    
     //defaults - this is what will be rendered if the dataset does not support pagination
     var model = this.get('model');
     var recordCount = model.get('recordCount');
