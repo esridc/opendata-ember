@@ -3,7 +3,7 @@ import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
 import FeatureLayer from 'esri/layers/FeatureLayer';
 import PopupTemplate from 'esri/widgets/PopupTemplate';
-import SpatialReference from 'esri/geometry/SpatialReference';
+//import SpatialReference from 'esri/geometry/SpatialReference';
 import Extent from 'esri/geometry/Extent';
 import SimpleRenderer from 'esri/renderers/SimpleRenderer';
 
@@ -31,7 +31,7 @@ export default Ember.Component.extend({
     var extent, ext = dataset.get('extent');
     if (ext && ext.coordinates) {
       var coords = ext.coordinates;
-      extent = new Extent(coords[0][0], coords[0][1], coords[1][0], coords[1][1], new SpatialReference({ wkid: 4326 }));
+      extent = new Extent(coords[0][0], coords[0][1], coords[1][0], coords[1][1], { wkid: 4326 });
     }
 
     if (extent) {
