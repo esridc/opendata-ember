@@ -25,39 +25,41 @@
   </table>
 </div>
 
-<nav>
-  <ul class="pagination">
-    {{!-- If we're on the first page, do not display the link --}}
-    {{#if isFirstPage}}
-      <li class="disabled">
-        <a>&laquo;</a>
-      </li>
-    {{else}}
-      <li>
-        <a {{action 'setPage' prevPage}}>&laquo;</a>
-      </li>
-    {{/if}}
+{{#if supportsPagination}}
+  <nav>
+    <ul class="pagination">
+      {{!-- If we're on the first page, do not display the link --}}
+      {{#if isFirstPage}}
+        <li class="disabled">
+          <a>&laquo;</a>
+        </li>
+      {{else}}
+        <li>
+          <a {{action 'setPage' prevPage}}>&laquo;</a>
+        </li>
+      {{/if}}
 
-    {{!--
-      For each page, display a link leading to it.
-      We could be smart and disable the link for the current page,
-      just like we're doing for the "previous"/"next" links.
-    --}}
-    {{#each pageRange as |num|}}
-      <li class="{{num.className}}">
-        <a {{action 'setPage' num.page}}>{{num.page}}</a>
-      </li>
-    {{/each}}
+      {{!--
+        For each page, display a link leading to it.
+        We could be smart and disable the link for the current page,
+        just like we're doing for the "previous"/"next" links.
+      --}}
+      {{#each pageRange as |num|}}
+        <li class="{{num.className}}">
+          <a {{action 'setPage' num.page}}>{{num.page}}</a>
+        </li>
+      {{/each}}
 
-    {{!-- If we're on the last page, do not display the link --}}
-    {{#if isLastPage}}
-      <li class="disabled">
-        <a>&raquo;</a>
-      </li>
-    {{else}}
-      <li>
-        <a {{action 'setPage' nextPage}}>&raquo;</a>
-      </li>
-    {{/if}}
-  </ul>
-</nav>
+      {{!-- If we're on the last page, do not display the link --}}
+      {{#if isLastPage}}
+        <li class="disabled">
+          <a>&raquo;</a>
+        </li>
+      {{else}}
+        <li>
+          <a {{action 'setPage' nextPage}}>&raquo;</a>
+        </li>
+      {{/if}}
+    </ul>
+  </nav>
+{{/if}}
