@@ -68,11 +68,6 @@ export default Ember.Component.extend({
   }.property('orderByAsc'),
 
   _getPageParams: function () {
-    // var orderBy = this.get('orderBy');
-    // if (!orderBy) {
-    //   orderBy = this.get('model.objectIdField');
-    // }
-
     return {
       perPage: this.get('perPage'),
       page: this.get('page'),
@@ -85,54 +80,71 @@ export default Ember.Component.extend({
     var perPage = this.get('perPage');
     var features = response.features.slice(0, perPage);
     var data = features.map(function (feat) {
-      //return Object.keys(feat.attributes).map(function (attr) {
-        return feat.attributes;
-      //});
+      return feat.attributes;
     });
     this.set('data', data);
-
-    this._calculatePaging();
   },
 
   willRemoveElement() {
     
   },
 
-  _calculatePaging: function () {
-    // TODO: reimplement the dataset table paging to use computed properties like dataset controller
-    
-    //defaults - this is what will be rendered if the dataset does not support pagination
-    var model = this.get('model');
-    var recordCount = model.get('recordCount');
-    var supportsPagination = Ember.get(model, 'advancedQueryCapabilities.supports_pagination');
+  totalCount: function () {
+    return this.get('model.recordCount');
+  }.property('model'),
 
-    var obj = {
-      from: (this.page - 1) * this.perPage + 1,
-      to: (this.page - 1) * this.perPage + this.perPage,
-      totalCount: recordCount, 
-      supportsPagination: supportsPagination
-    };
+  supportsPagination: function () {
+    return this.get('model.advancedQueryCapabilities.supports_pagination');
+  }.property('model'),
 
-    if (supportsPagination) {
-      obj.isFirstPage = this.page === 1;
-      obj.prevPage = this.page - 1;
-      obj.isLastPage = (this.page - 1) * this.perPage + this.data.length >= recordCount;
-      obj.nextPage = this.page + 1;
+  from: function () {
+    return (this.get('page') - 1) * this.get('perPage') + 1;
+    //this really depends on perPage and page but we don't want it to change until we get data
+  }.property('data.[]'),
 
-      var totalPages = Math.ceil(recordCount / this.perPage);
-      // don't show more than 10 pages in paginator?
-      var start = (totalPages > 10 && this.page > 6) ? this.page - 5 : 1;
-      var end = (totalPages > start + 9) ? start + 9 : totalPages;
-
-      var className, pageRange = [];
-      for (var i = start; i <= end; i++) {
-        className = (i === this.page) ? 'active' : '';
-        pageRange.push({ page: i, className: className });
-      }
-      obj.pageRange = pageRange;
+  to: function () {
+    var data = this.get('data');
+    var perPage = this.get('perPage');
+    var result = perPage; 
+    if (data) {
+      result = (this.get('page') - 1) * perPage + this.get('data').length;
     }
-    
-    this.setProperties(obj);
-  }
+    return result;
+    //this really depends on perPage and page too but we don't want it to change until we get data
+  }.property('data.[]'),
+
+  isFirstPage: function () {
+    return this.get('page') === 1;
+  }.property('page'),
+
+  prevPage: function () {
+    return this.get('page') - 1;
+  }.property('page'),
+
+  isLastPage: function () {
+    return this.get('page') === this.get('totalPages');
+  }.property('page', 'totalPages'),
+
+  nextPage: function () {
+    return this.get('page') + 1;
+  }.property('page'),
+
+  totalPages: function () {
+    return Math.ceil(this.get('totalCount') / this.get('perPage'));
+  }.property('totalCount', 'perPage'),
+
+  pageRange: function () {
+    var totalPages = this.get('totalPages');
+    var page = this.get('page');
+    var start = (totalPages > 10 && page > 6) ? page - 5 : 1;
+    var end = (totalPages > start + 9) ? start + 9 : totalPages;
+
+    var className, pageRange = [];
+    for (var i = start; i <= end; i++) {
+      className = (i === page) ? 'active' : '';
+      pageRange.push({ page: i, className: className });
+    }
+    return pageRange;
+  }.property('totalPages', 'page')
 
 });
