@@ -5,13 +5,13 @@ import ajax from 'ic-ajax';
 export default Ember.Service.extend({
 
   _getQueryUrl: function (dataset, params) {
-    var url = dataset.get('url');
+    let url = dataset.get('url');
     url += '/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson';
 
-    var supportsPagination = Ember.get(dataset, 'advancedQueryCapabilities.supports_pagination');
+    let supportsPagination = Ember.get(dataset, 'advancedQueryCapabilities.supports_pagination');
 
     if (supportsPagination) {
-      var perPage = params.perPage;
+      let perPage = params.perPage;
       url += '&resultOffset=' + (params.page - 1) * perPage;
       url += '&resultRecordCount=' + perPage;
       //NOTE: when you pass in one of the above two parameters and orderByFields is left empty, 
@@ -20,7 +20,7 @@ export default Ember.Service.extend({
       //you must provide orderByFields; otherwise the query fails
     }
 
-    var orderBy = params.orderBy;
+    let orderBy = params.orderBy;
     if (!params.orderByAsc) {
       orderBy += ' desc';
     }
@@ -34,7 +34,7 @@ export default Ember.Service.extend({
 
   fetchPage: function (dataset, params) {
 
-    var url = this._getQueryUrl(dataset, params);
+    let url = this._getQueryUrl(dataset, params);
 
     return ajax({
       url: url,

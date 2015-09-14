@@ -41,15 +41,15 @@ export default Ember.Controller.extend({
   }.property('page', 'totalPages'),
 
   pageRange: function () {
-    var result = Ember.A();
+    let result = Ember.A();
 
-    var currentPage = this.get('page');
-    var totalPages = this.get('totalPages');
+    let currentPage = this.get('page');
+    let totalPages = this.get('totalPages');
 
-    var start = (totalPages > 10 && currentPage > 6) ? currentPage - 5 : 1;
-    var end = (totalPages > start + 9) ? start + 9 : totalPages;
+    let start = (totalPages > 10 && currentPage > 6) ? currentPage - 5 : 1;
+    let end = (totalPages > start + 9) ? start + 9 : totalPages;
 
-    for(var i = start; i <= end; i++) {
+    for(let i = start; i <= end; i++) {
       result.push({ page: i, className: (i === currentPage) ? 'active' : '' });
     }
 

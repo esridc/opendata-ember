@@ -29,7 +29,7 @@ export default Ember.Component.extend({
   },
 
   fetchPage: function () {
-    var model = this.get('model');
+    let model = this.get('model');
     this.get('featureService')
       .fetchPage(model, this._getPageParams())
         .then(this._handlePageResponse.bind(this))
@@ -43,7 +43,7 @@ export default Ember.Component.extend({
   },
 
   setSort: function (orderBy) {
-    var obj = {
+    let obj = {
       page: 1,
       orderBy: orderBy,
       orderByAsc: (orderBy === this.orderBy) ? !this.orderByAsc : true
@@ -62,7 +62,7 @@ export default Ember.Component.extend({
   orderByAsc: true,
 
   sortIconClass: function () {
-    var result = 'glyphicon-chevron-';
+    let result = 'glyphicon-chevron-';
     result += this.orderByAsc ? 'up' : 'down';
     return result;
   }.property('orderByAsc'),
@@ -77,9 +77,9 @@ export default Ember.Component.extend({
   },
 
   _handlePageResponse: function (response) {
-    var perPage = this.get('perPage');
-    var features = response.features.slice(0, perPage);
-    var data = features.map(function (feat) {
+    let perPage = this.get('perPage');
+    let features = response.features.slice(0, perPage);
+    let data = features.map(function (feat) {
       return feat.attributes;
     });
     this.set('data', data);
@@ -103,9 +103,9 @@ export default Ember.Component.extend({
   }.property('data.[]'),
 
   to: function () {
-    var data = this.get('data');
-    var perPage = this.get('perPage');
-    var result = perPage; 
+    let data = this.get('data');
+    let perPage = this.get('perPage');
+    let result = perPage; 
     if (data) {
       result = (this.get('page') - 1) * perPage + this.get('data').length;
     }
@@ -134,13 +134,13 @@ export default Ember.Component.extend({
   }.property('totalCount', 'perPage'),
 
   pageRange: function () {
-    var totalPages = this.get('totalPages');
-    var page = this.get('page');
-    var start = (totalPages > 10 && page > 6) ? page - 5 : 1;
-    var end = (totalPages > start + 9) ? start + 9 : totalPages;
+    let totalPages = this.get('totalPages');
+    let page = this.get('page');
+    let start = (totalPages > 10 && page > 6) ? page - 5 : 1;
+    let end = (totalPages > start + 9) ? start + 9 : totalPages;
 
-    var className, pageRange = [];
-    for (var i = start; i <= end; i++) {
+    let className, pageRange = [];
+    for (let i = start; i <= end; i++) {
       className = (i === page) ? 'active' : '';
       pageRange.push({ page: i, className: className });
     }

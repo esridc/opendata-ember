@@ -12,25 +12,25 @@ export default Ember.Component.extend({
   classNames: ['esri-map-component'],
 
   didInsertElement() {
-    var dataset = this.get('model');
+    let dataset = this.get('model');
 
-    var mapOpts = {
+    let mapOpts = {
       basemap: 'dark-gray'
     };
 
-    var map = new Map(mapOpts);
+    let map = new Map(mapOpts);
     this.set('map', map);
 
-    var mapViewOpts = {
+    let mapViewOpts = {
       container: 'map-div',  //reference to the DOM node that will contain the view
       map: map,  //references the map object created in step 3
       height: this.element.clientHeight,
       width: this.element.clientWidth
     };
 
-    var extent, ext = dataset.get('extent');
+    let extent, ext = dataset.get('extent');
     if (ext && ext.coordinates) {
-      var coords = ext.coordinates;
+      let coords = ext.coordinates;
       extent = new Extent(coords[0][0], coords[0][1], coords[1][0], coords[1][1], { wkid: 4326 });
     }
 
@@ -41,40 +41,40 @@ export default Ember.Component.extend({
       mapViewOpts.zoom = 3;
     }
 
-    var view = new MapView(mapViewOpts);
+    let view = new MapView(mapViewOpts);
     this.set('mapView', view);
 
     this._addDataset(map, dataset);
   },
 
   willRemoveElement() {
-    var view = this.get('mapView');
+    let view = this.get('mapView');
     if (view) {
       view.destroy();
     }
 
-    var map = this.get('map');
+    let map = this.get('map');
     if (map) {
       map.destroy();
     }
   },
 
   _addDataset: function (map, dataset) {
-    var opts = this._getDatasetLayerOpts(dataset);
-    var datasetLayer = new FeatureLayer(dataset.get('url'), opts);
+    let opts = this._getDatasetLayerOpts(dataset);
+    let datasetLayer = new FeatureLayer(dataset.get('url'), opts);
     this.set('datasetLayer', datasetLayer);
     map.add(datasetLayer);
   },
 
   _getDatasetInfoTemplate: function (dataset) {
-    var displayFieldName = dataset.get('displayField');
-    var title = displayFieldName ? '{' + displayFieldName + '}' : 'Attributes';
+    let displayFieldName = dataset.get('displayField');
+    let title = displayFieldName ? '{' + displayFieldName + '}' : 'Attributes';
     return new PopupTemplate({ title: title, description: '{*}' });
   },
 
   _getRenderer: function(dataset){
-    var geometryType = dataset.get('geometryType');
-    var renderer;
+    let geometryType = dataset.get('geometryType');
+    let renderer;
 
     //depending on the type, load in the default renderer as json
     switch (geometryType){
@@ -100,7 +100,7 @@ export default Ember.Component.extend({
   },
 
   _getDatasetLayerOpts: function (dataset) {
-    var opts = {
+    let opts = {
       minScale: 0,
       maxScale: 0,
       outFields: ['*'],

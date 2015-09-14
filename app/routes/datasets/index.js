@@ -24,8 +24,8 @@ export default Ember.Route.extend({
 
   model: function (params, transition) {
     // NOTE: I think this is a bug - queryParams are available on transition but params is an empty object
-    var ctrl = this.controllerFor('datasets');
-    var queryParams = {
+    let ctrl = this.controllerFor('datasets');
+    let queryParams = {
       per_page: ctrl.get('perPage')
     };
     if (transition.queryParams) {
@@ -40,7 +40,7 @@ export default Ember.Route.extend({
     this._super(controller, model); // Do not forget this call
     
     // NOTE: i don't know why we can't just call controller.___
-    var ctrl = this.controllerFor('datasets');
+    let ctrl = this.controllerFor('datasets');
     ctrl.set('totalCount', model.meta.stats.total_count);
     ctrl.set('count', model.meta.stats.count);
   }

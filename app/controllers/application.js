@@ -7,13 +7,13 @@ export default Ember.Controller.extend({
   bodyClass: null,
 
   currentPathDidChange: function() {
-    var path = this.get('currentPath');
-    var parts = path.split('.');
+    let path = this.get('currentPath');
+    let parts = path.split('.');
     // var className = path.replace(/\./g, '-');
     // if (className !== parts[0]) {
     //   className += ' ' + parts[0];
     // }
-    var className = 'page-' + parts[0];
+    let className = 'page-' + parts[0];
     this.set('bodyClass', className);
   }.observes('currentPath'),
 

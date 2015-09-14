@@ -19,14 +19,14 @@ export default DS.JSONAPISerializer.extend({
   },
 
   _mapDataset: function (item) {
-    var d = {
+    let d = {
         id: item.id,
         attributes: {},
         type: 'Dataset'
       };
 
       // NOTE: seems like this ought to be done with keyForAttribute but it didn't work
-      for (var p in item) {
+      for (let p in item) {
         if (item.hasOwnProperty(p)){
           d.attributes[Ember.String.camelize(p)] = item[p];
         }
