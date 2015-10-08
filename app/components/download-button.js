@@ -9,6 +9,6 @@ export default Ember.Component.extend({
     let url = ENV.APP.API;
     url += DS.JSONAPIAdapter.prototype.buildURL('dataset', model.get('id'));
     return url;
-  }.property()
+  }.property('model.id')
 
 });

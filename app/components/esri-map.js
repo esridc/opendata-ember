@@ -22,10 +22,10 @@ export default Ember.Component.extend({
     this.set('map', map);
 
     let mapViewOpts = {
-      container: 'map-div',  //reference to the DOM node that will contain the view
+      container: this.element,  //reference to the DOM node that will contain the view
       map: map,  //references the map object created in step 3
-      height: this.element.clientHeight,
-      width: this.element.clientWidth
+      height: this.element.clientHeight + 'px',//ie9 needs it expressed this way
+      width: this.element.clientWidth + 'px'
     };
 
     let extent, ext = dataset.get('extent');
@@ -93,7 +93,7 @@ export default Ember.Component.extend({
     case 'esriGeometryLine':
       renderer = this._createRendererFromJson(this._defaultLineRenderer);
       break;
-    default: 
+    default:
       renderer = this._createRendererFromJson(this._defaultPolygonRenderer);
     }
     return renderer;
@@ -107,7 +107,7 @@ export default Ember.Component.extend({
       popupTemplate: this._getDatasetInfoTemplate(dataset),
       renderer: this._getRenderer(dataset, opts)
     };
-    
+
     return opts;
   },
 

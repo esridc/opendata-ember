@@ -10,18 +10,18 @@ export default Ember.Controller.extend({
     let groupThumbnailUrl = model.get('mainGroupThumbnailUrl');
     let defaultThumbnailUrl = 'images/default-dataset-thumb.png';
     return thumbnailUrl || groupThumbnailUrl || defaultThumbnailUrl;
-  }.property(),
+  }.property('model.thumbnailUrl', 'model.mainGroupThumbnailUrl'),
 
   baseUrl: function () {
     let model = this.get('model');
     let url = ENV.APP.API;
     url += DS.JSONAPIAdapter.prototype.buildURL('dataset', model.get('id'));
     return url;
-  }.property(),
+  }.property('model.id'),
 
   tagsString: function () {
     let model = this.get('model');
     return model.get('tags').join(' | ');
-  }.property()
+  }.property('model.tags')
 
 });

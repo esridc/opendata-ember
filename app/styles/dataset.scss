@@ -5,10 +5,14 @@
       margin-right: 10px;
     }
   }
-  #map-div {
+  .map-container {
     height: 600px;
-    background-color:#474747;
   }
+  .esri-map-component {
+    height: 100%;
+    background-color:#474747;
+	  width: 100%;
+	}
 
   #table-container {
     margin-top: 25px;
