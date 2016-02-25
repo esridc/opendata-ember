@@ -33,9 +33,12 @@
   </div>
 </div>
 
-<div class="container map-container">
-  {{esri-map model=model}}
-</div>
+{{#if showMap}}
+    <div class="container map-container">
+      {{esri-map model=model}}
+    </div>
+{{/if}}
+
 
 <div id="table-container" class="container">
   {{dataset-table model=model orderBy=model.objectIdField}}
