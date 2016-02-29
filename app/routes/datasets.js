@@ -4,11 +4,11 @@ export default Ember.Route.extend({
 
   queryParams: {
     page: {
-      as: 'other-page',
+      //as: 'other-page',
       refreshModel: true
     },
     q: {
-      as: 'other-q',
+      //as: 'other-q',
       refreshModel: true
     }
   },
