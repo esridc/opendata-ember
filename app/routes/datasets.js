@@ -4,9 +4,11 @@ export default Ember.Route.extend({
 
   queryParams: {
     page: {
+      //as: 'other-page',
       refreshModel: true
     },
     q: {
+      //as: 'other-q',
       refreshModel: true
     }
   },
@@ -38,7 +40,7 @@ export default Ember.Route.extend({
   // This method will be executed each time the model is reloaded.
   setupController: function(controller, model) {
     this._super(controller, model); // Do not forget this call
-    
+
     // NOTE: i don't know why we can't just call controller.___
     let ctrl = this.controllerFor('datasets');
     ctrl.set('totalCount', model.meta.stats.total_count);

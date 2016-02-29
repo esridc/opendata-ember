@@ -19,6 +19,10 @@ export default Ember.Controller.extend({
     return url;
   }.property('model.id'),
 
+  showMap: Ember.computed('model', function () {
+    return this.get('model.itemType') !== 'Table';
+  }),
+
   tagsString: function () {
     let model = this.get('model');
     return model.get('tags').join(' | ');
