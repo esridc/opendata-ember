@@ -17,7 +17,7 @@ module.exports = function(environment) {
       'style-src': "* 'unsafe-inline' use.typekit.net",
       'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
     },
-    
+
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -28,7 +28,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      API: 'http://opendataqa.arcgis.com'
+      API: 'https://opendatadev.arcgis.com'
     }
   };
 
@@ -55,14 +55,14 @@ module.exports = function(environment) {
   if (environment === 'production' || environment === 'prod') {
     ENV.baseUrl = '/opendata-ember';
     ENV.rootUrl = '/opendata-ember';
-    ENV.APP.API = 'http://opendataqa.arcgis.com';
+    ENV.APP.API = 'https://opendata.arcgis.com';
     ENV.locationType = 'hash';
   }
 
   if (environment === 'qaext') {
     ENV.baseUrl = '/opendata-ember';
     ENV.rootUrl = '/opendata-ember';
-    ENV.APP.API = 'http://opendataqa.arcgis.com';
+    ENV.APP.API = 'https://opendataqa.arcgis.com';
     ENV.locationType = 'hash';
   }
 
