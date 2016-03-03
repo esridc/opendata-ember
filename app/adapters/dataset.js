@@ -9,11 +9,10 @@ export default ApplicationAdapter.extend({
   },
 
   urlForFindRecord: function (id/*, modelName, snapshot*/)  {
-    console.log('Dataset Adapter: urlForFindRecord called id: ' + id );
+    Ember.debug('Dataset Adapter: urlForFindRecord called id: ' + id );
     let host = this.get('host');
-    console.log('bob');
-    console.log(host + '/api/v2/datasets/' + id);
-    return host + '/api/v2/datasets/' + id;
+    let namespace = this.get('namespace');
+    return `${host}/${namespace}/datasets/${id}`;
   }
 
 });

@@ -30,7 +30,7 @@ export default Ember.Route.extend({
     let qryParams = {
       page: {
         number: 1,
-        size: 10
+        size: 20
       }
     };
     //q
@@ -47,8 +47,6 @@ export default Ember.Route.extend({
       qryParams.page.size = params.size;
     }
 
-    console.log(params);
-    console.log(qryParams.page);
     //if (transition.queryParams) {
     //  qryParams = Ember.merge(qryParams, transition.queryParams);
     //}
