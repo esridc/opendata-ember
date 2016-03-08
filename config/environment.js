@@ -17,7 +17,7 @@ module.exports = function(environment) {
       'style-src': "* 'unsafe-inline' use.typekit.net",
       'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
     },
-    
+
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -28,7 +28,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      API: 'http://opendataqa.arcgis.com'
+      API: 'http://opendata.arcgis.com'
     }
   };
 
