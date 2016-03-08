@@ -12,38 +12,36 @@ export default Ember.Controller.extend({
 
   // defaults
   page: 1,
-  q: null,
-  perPage: 20,
+  q: '',
 
   // These properties will be set by the parent route
-  totalCount: null,
-  count: null,
+  totalCount: Ember.computed('model.meta.stats.totalCount', function(){
+    return this.get('model.meta.stats.totalCount');
+  }),
 
   // The following properties will be used for the display of the pagination links
-  totalPages: function() {
-    return Math.ceil(this.get('totalCount') / this.get('perPage'));
-  }.property('totalCount'),
+  totalPages: Ember.computed('totalCount', function() {
+    let totalPages = Math.ceil(this.get('totalCount') / this.get('model.meta.queryParameters.page.size'));
+    return totalPages;
+  }),
+  prevPage: Ember.computed('model.meta.queryParameters.page.number', function() {
+    return this.get('model.meta.queryParameters.page.number') - 1;
+  }),
 
-  prevPage: function() {
-    return this.get('page') - 1;
-  }.property('page'),
+  nextPage: Ember.computed('model.meta.queryParameters.page.number', function() {
+    return this.get('model.meta.queryParameters.page.number') + 1;
+  }),
 
-  nextPage: function() {
-    return this.get('page') + 1;
-  }.property('page'),
+  isFirstPage: Ember.computed.equal('model.meta.queryParameters.page.number', 1),
 
-  isFirstPage: function() {
-    return this.get('page') === 1;
-  }.property('page'),
+  isLastPage: Ember.computed('model.meta.queryParameters.page.number', 'totalPages', function() {
+    return this.get('model.meta.queryParameters.page.number') >= this.get('totalPages');
+  }),
 
-  isLastPage: function() {
-    return this.get('page') >= this.get('totalPages');
-  }.property('page', 'totalPages'),
-
-  pageRange: function () {
+  pageRange: Ember.computed('model.meta.queryParameters.page.number', 'totalPages', function () {
     let result = Ember.A();
 
-    let currentPage = this.get('page');
+    let currentPage = this.get('model.meta.queryParameters.page.number');
     let totalPages = this.get('totalPages');
 
     let start = (totalPages > 10 && currentPage > 6) ? currentPage - 5 : 1;
@@ -54,6 +52,6 @@ export default Ember.Controller.extend({
     }
 
     return result;
-  }.property('totalPages', 'page')
+  })
 
 });

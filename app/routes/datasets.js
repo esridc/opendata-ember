@@ -27,13 +27,31 @@ export default Ember.Route.extend({
   model: function (params, transition) {
     // NOTE: I think this is a bug - queryParams are available on transition but params is an empty object
     let ctrl = this.controllerFor('datasets');
-    let queryParams = {
-      per_page: ctrl.get('perPage')
+    let qryParams = {
+      page: {
+        number: 1,
+        size: 20
+      }
     };
-    if (transition.queryParams) {
-      queryParams = Ember.merge(queryParams, transition.queryParams);
+    //q
+    if(params.q){
+      qryParams.q = params.q;
     }
-    return this.store.query('dataset', queryParams);
+    //page[number]
+    if(params.page){
+
+      qryParams.page.number = params.page;
+    }
+    //page[size]
+    if(params.size){
+      qryParams.page.size = params.size;
+    }
+
+    //if (transition.queryParams) {
+    //  qryParams = Ember.merge(qryParams, transition.queryParams);
+    //}
+
+    return this.store.query('dataset', qryParams);
   },
 
   // Here, we're passing metadata to the controller
@@ -43,7 +61,7 @@ export default Ember.Route.extend({
 
     // NOTE: i don't know why we can't just call controller.___
     let ctrl = this.controllerFor('datasets');
-    ctrl.set('totalCount', model.meta.stats.total_count);
+    ctrl.set('totalCount', model.meta.stats.totalCount);
     ctrl.set('count', model.meta.stats.count);
   }
 
