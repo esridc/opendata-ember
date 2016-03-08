@@ -11,7 +11,7 @@
     "build": "ember build --environment production",
     "start": "ember server",
     "test": "ember test",
-    "deploy": "ember build --environment production && gulp deploy"
+    "deploy": "npm run build && gulp deploy"
   },
   "repository": "",
   "engines": {
