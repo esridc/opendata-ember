@@ -9,12 +9,12 @@
 
     <link rel="icon" href="/images/favicon.ico">
 
-    
-<meta name="opendata-ember/config/environment" content="%7B%22modulePrefix%22%3A%22opendata-ember%22%2C%22environment%22%3A%22production%22%2C%22rootUrl%22%3A%22/opendata-ember%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22hash%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27none%27%22%2C%22script-src%22%3A%22*%20%27unsafe-inline%27%20%27unsafe-eval%27%20use.typekit.net%20connect.facebook.net%20maps.googleapis.com%20maps.gstatic.com%22%2C%22font-src%22%3A%22*%20data%3A%20use.typekit.net%22%2C%22connect-src%22%3A%22*%22%2C%22img-src%22%3A%22*%22%2C%22style-src%22%3A%22*%20%27unsafe-inline%27%20use.typekit.net%22%2C%22frame-src%22%3A%22s-static.ak.facebook.com%20static.ak.facebook.com%20www.facebook.com%22%2C%22media-src%22%3A%22%27self%27%22%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22API%22%3A%22http%3A//opendataqa.arcgis.com%22%2C%22name%22%3A%22opendata-ember%22%2C%22version%22%3A%220.0.0+01038f89%22%7D%2C%22baseUrl%22%3A%22/opendata-ember%22%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+    <base href="/" />
+<meta name="opendata-ember/config/environment" content="%7B%22modulePrefix%22%3A%22opendata-ember%22%2C%22environment%22%3A%22development%22%2C%22rootUrl%22%3A%22/%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27none%27%22%2C%22script-src%22%3A%22*%20%27unsafe-inline%27%20%27unsafe-eval%27%20use.typekit.net%20connect.facebook.net%20maps.googleapis.com%20maps.gstatic.com%22%2C%22font-src%22%3A%22*%20data%3A%20use.typekit.net%22%2C%22connect-src%22%3A%22*%22%2C%22img-src%22%3A%22*%22%2C%22style-src%22%3A%22*%20%27unsafe-inline%27%20use.typekit.net%22%2C%22frame-src%22%3A%22s-static.ak.facebook.com%20static.ak.facebook.com%20www.facebook.com%22%2C%22media-src%22%3A%22%27self%27%22%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22API%22%3A%22http%3A//opendata.arcgis.com%22%2C%22LOG_RESOLVER%22%3Atrue%2C%22LOG_ACTIVE_GENERATION%22%3Atrue%2C%22LOG_TRANSITIONS%22%3Atrue%2C%22LOG_TRANSITIONS_INTERNAL%22%3Atrue%2C%22LOG_VIEW_LOOKUPS%22%3Atrue%2C%22name%22%3A%22opendata-ember%22%2C%22version%22%3A%220.0.0+5c727383%22%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22exportApplicationGlobal%22%3Atrue%7D" />
 
     <link rel="stylesheet" href="https://js.arcgis.com/4.0beta1/esri/css/esri.css">
-    <link rel="stylesheet" href="assets/vendor-d41d8cd98f00b204e9800998ecf8427e.css" integrity="sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU= sha512-z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==" >
-    <link rel="stylesheet" href="assets/opendata-ember-0b6636fab629e803a4aea3ec74927080.css" integrity="sha256-quZvuBuwSPJ+FlmivThO/LygDV90AZ1jbZCtOo5wk3U= sha512-p2tmZfFUDRmTKlOwPkv8xPkoNrkuL++ozIYoqeum/tKbyaVsZGVG106aRDv777WAs5E5ugJdNkOBo8TlFwNgKQ==" >
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/opendata-ember.css">
 
     
   </head>
@@ -42,10 +42,10 @@ require([
 mod0,mod1,mod2,mod3,mod4,mod5,mod6) {
 adoptable = [{name:"esri/Map",obj:mod0},{name:"esri/geometry/Extent",obj:mod1},{name:"esri/layers/FeatureLayer",obj:mod2},{name:"esri/renderers/SimpleRenderer",obj:mod3},{name:"esri/request",obj:mod4},{name:"esri/views/MapView",obj:mod5},{name:"esri/widgets/PopupTemplate",obj:mod6},];
 var vendor=document.createElement("script");
-vendor.setAttribute("src", "assets/vendor-ca06c5c73437533154744bc9d7922f41.js");
+vendor.setAttribute("src", "assets/vendor.js");
 vendor.onload=function(){
 var app=document.createElement("script");
-app.setAttribute("src", "assets/opendata-ember-3589cbc6f7c8fbe6eb7f7c918f8bae23.js");
+app.setAttribute("src", "assets/opendata-ember.js");
 document.body.appendChild(app);
 }
 document.body.appendChild(vendor);
@@ -53,8 +53,8 @@ document.body.appendChild(vendor);
 </script>
 
     <!-- NOTE: these are now loaded by the ember-cli-amd add-on
-    <script src="assets/vendor-ca06c5c73437533154744bc9d7922f41.js" integrity="sha256-J4GlK7toJqxXejD76IhHKmYdSYdfBicRaREOp5GKrN8= sha512-QE3jDXIJ9jtpd7mgwfIKpzQ+LgTBXgY6E2qQKYivXOZFr6Xgcmjan6m2IZoOQ/anLOa7F0Z0PWFiUgcV/crqFw==" ></script>
-    <script src="assets/opendata-ember-3589cbc6f7c8fbe6eb7f7c918f8bae23.js" integrity="sha256-bVfLTLE/Etla2vIFPNZu5mun8nRLSYfpxwuaWqKVbPQ= sha512-/fqkjwmLfT1n0U9lBU8cTcvzoD9BLE+3PY97yiggO4M9tWpIMYb1//LYnEfbOJtXKhbc6Y7ot8D/U+cHomq8nQ==" ></script> -->
+    <script src="assets/vendor.js"></script>
+    <script src="assets/opendata-ember.js"></script> -->
 
     
   </body>
