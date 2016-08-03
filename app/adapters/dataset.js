@@ -16,7 +16,6 @@ export default ApplicationAdapter.extend({
   },
 
   query (store, type, query) {
-    Ember.debug('>>>>> query');
     query.filter = { source: 'ESRI R&D Center' };
     return this._super(store, type, query);
   }
