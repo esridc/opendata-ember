@@ -13,7 +13,6 @@ export default DS.JSONAPISerializer.extend({
       payload.data = this._mapDataset(payload.data);
     }
 
-
     return payload;
   },
 
@@ -21,6 +20,8 @@ export default DS.JSONAPISerializer.extend({
     if(!item.attributes.name){
       item.attributes.name = item.attributes.item_name;
     }
+
+    delete item.relationships;
 
     return item;
   }
